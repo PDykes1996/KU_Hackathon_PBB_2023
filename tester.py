@@ -14,19 +14,22 @@ def main():
     while (b1 == b5 or b2 == b5 or b3 == b5 or b4 == b5):
         b5 = [random.randint(0,9),random.randint(0,9)]
     x = 0
-    y = 0
     print(b1)
     print(b2)
     print(b3)
     print(b4)
     print(b5)
-    grid = [[0]*10]*10
-    while x < 9:
-        while y < 9:
+    grid = []
+    while x <= 9:
+        temp = []
+        y = 0
+        while y <= 9:
             if [x,y] == b1 or [x,y] == b2 or [x,y] == b3 or [x,y] == b4 or [x,y] == b5:
-                grid[x][y] = 1
-                print(3)
+                temp.append(1)
+            else:
+                temp.append(0)
             y+=1
+        grid.append(temp)
         x+=1
     for thing in grid:
         print(thing)
