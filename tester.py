@@ -1,7 +1,6 @@
 import random
 from player import Player
-from pynput import keyboard
-
+import pynput
 def main():
     player = Player((0,0), 10) #creating a new player... starting arbitrarily at position 0,0 and with mapsize 10 
 
