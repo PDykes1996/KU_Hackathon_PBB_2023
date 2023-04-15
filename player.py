@@ -1,5 +1,7 @@
 from playsound import playsound
 from LevelGenerator import Level
+import pygame
+
 class Player:
     def __init__(self, position, level):
         #initializes the player class
@@ -13,28 +15,22 @@ class Player:
         self.geiger3Sound = ""
 
     def move(self, direction):
+        #move player
         if direction == "left" and self.position[1] > 0:
             self.position[1] -= 1
-        elif direction == "right" and self.position[1] < self.mapSize-1:
+        elif direction == "right" and self.position[1] < self.level.levelSize-1:
             self.position[1] += 1
-        elif direction == "down" and self.position[0] < self.mapSize-1:
+        elif direction == "down" and self.position[0] < self.level.levelSize-1:
             self.position[0] += 1
         elif direction == "up" and self.position[0] > 0:
             self.position[0] -= 1
-        else:
+        else: #if none of the moves are legal, you hit a wall
             self.hit_wall()
-
-        if self.check_bomb():
-            self.hit_bomb()
             
     def check_bomb(self):
-        return self.position in self.level.bombPositions
-
-            
-    def hit_bomb(self):
-        #what happens when the player hit bomb
-        print("b")
+        return self.position in self.level.bombPositions #returns true if the player is on a bomb (position is in the list of bomb positions)
 
     def hit_wall(self):
         #what happens when the player hits the wall
-        playsound(self.OOBSound)
+        return
+        #playsound(self.OOBSound)
