@@ -1,5 +1,4 @@
 import random
-
 def main():
     b1 = [random.randint(0,9),random.randint(0,9)]
     b2 = [random.randint(0,9),random.randint(0,9)]
@@ -16,13 +15,19 @@ def main():
         b5 = [random.randint(0,9),random.randint(0,9)]
     x = 0
     y = 0
-    grid = [][]
+    print(b1)
+    print(b2)
+    print(b3)
+    print(b4)
+    print(b5)
+    grid = [[0]*10]*10
     while x < 9:
         while y < 9:
-            if [x][y] == b1 or [x][y] == b2 or [x][y] == b3 or [x][y] == b4 or [x][y] == b5:
+            if [x,y] == b1 or [x,y] == b2 or [x,y] == b3 or [x,y] == b4 or [x,y] == b5:
                 grid[x][y] = 1
-            else:
-                grid[x][y] = 0
-                
-                
+                print(3)
+            y+=1
+        x+=1
+    for thing in grid:
+        print(thing)
 main()
