@@ -23,6 +23,7 @@ while (b1 == b5 or b2 == b5 or b3 == b5 or b4 == b5):
 start = [random.randint(0,9),random.randint(0,9)]
 while (b1 == start or b2 == start or b3 == start or b4 == start or b5 == start):
     start = [random.randint(0,9),random.randint(0,9)]
+grid = []
 x = 0
 while x <= 9:
     temp = []
@@ -37,6 +38,8 @@ while x <= 9:
         y+=1
     grid.append(temp)
     x+=1
+for thing in grid:
+    print(thing)
         
 grid_node_width = 25
 grid_node_height = 25
@@ -87,8 +90,7 @@ def visualizeGrid():
             elif item == 2:
                 createSquare(x, y, (255, 0, 255))
             else:
-                createSquare(x, y, (0, 0, 0))
-
+                createSquare(x,y, (0,0,0))
             x += grid_node_width # for ever item/number in that row we move one "step" to the right
         y += grid_node_height   # for every new row we move one "step" downwards
     pygame.display.update()
