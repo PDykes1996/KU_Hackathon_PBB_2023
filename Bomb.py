@@ -1,10 +1,11 @@
 import random
 class Bomb:
-    def Bomb(self, xCoord, yCoord, active):
-        icon = "|!!|"
-        xCoord = self.xCoord
-        yCoord = self.yCoord
-        active = self.active
+    def Bomb(self, bombPosition, isActive):
+        self.icon = "|!!|"
+        self.bombPosition = bombPosition
+        self.isActive = isActive
+
+
 
 
 
