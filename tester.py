@@ -1,9 +1,9 @@
 import random
 from player import Player
+from pynput import keyboard
 
 def main():
     player = Player((0,0), 10) #creating a new player... starting arbitrarily at position 0,0 and with mapsize 10 
-
 
     b1 = [random.randint(0,9),random.randint(0,9)]
     b2 = [random.randint(0,9),random.randint(0,9)]
@@ -40,7 +40,25 @@ def main():
 
 
     while (1):
-        for thing in grid:
-            print(thing)
+        x = input("")
+        if x == 'w':
+            for thing in grid:
+                print(thing)
 
-main()
+def on_press(key):
+    try:
+        k = key.char  # single-char keys
+    except:
+        k = key.name  # other keys
+    if k in ['1', '2', 'left', 'right']:  # keys of interest
+        # self.keys.append(k)  # store it in global-like variable
+        print('Key pressed: ' + k)
+        return False  # stop listener; remove this if want more keys
+
+listener = keyboard.Listener(on_press=on_press)
+listener.start()  # start to listen on a separate thread
+listener.join() 
+
+while (1):
+    on_press()
+#main()

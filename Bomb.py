@@ -1,7 +1,7 @@
 import random
 class Bomb:
-    def Bomb(self, bombPosition, isActive):
-        self.icon = "|!!|"
+    def __init__(self, bombPosition, isActive):
+        self.icon = "|!|"
         self.bombPosition = bombPosition
         self.isActive = isActive
 
