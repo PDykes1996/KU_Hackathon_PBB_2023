@@ -1,5 +1,10 @@
 import random
+from player import Player
+
 def main():
+    player = Player((0,0), 10) #creating a new player... starting arbitrarily at position 0,0 and with mapsize 10 
+
+
     b1 = [random.randint(0,9),random.randint(0,9)]
     b2 = [random.randint(0,9),random.randint(0,9)]
     while (b1 == b2):
@@ -31,6 +36,11 @@ def main():
             y+=1
         grid.append(temp)
         x+=1
-    for thing in grid:
-        print(thing)
+    
+
+
+    while (1):
+        for thing in grid:
+            print(thing)
+
 main()
