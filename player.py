@@ -1,3 +1,4 @@
+import playsound
 class Player:
     def __init__(self, position, mapSize):
         #initializes the player class
