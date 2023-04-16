@@ -28,17 +28,8 @@ def main():
 
 
 
-    while (1): #listen for key pressed from player 
-        onBomb = playerCharacter.check_bomb()
-        audioEventPlayer.PlaySound('bombsound.mp3')
-
-        if playerCharacter.check_bomb(): #if the player is on a bomb
-            #audioPlayer.PlaySound("bombsound.mp3")
-            pygame.mixer.music.load('bombsound.mp3')
-            pygame.mixer.music.play(0)
-        listener = keyboard.Listener(on_press=on_press)
-        listener.start()  # start to listen on a separate thread
-        listener.join()
+    while (1): #listen for key pressed from player
+        playerMovement()
 
 
     print("gameover")
@@ -47,7 +38,7 @@ def updateMap(currentMap):
     #print out map
     print("Average Distance From Bombs: " + str(playerCharacter.DistanceFromBombs(mainMap.bombs)))
     print("Is on bomb: " + str(playerCharacter.check_bomb()))
-    print("Sound Playing : " + str(audioPlayer.currentSound))
+    print("Sound Playing : " + str(audioEventPlayer.currentSound))
     for x in range(mainMap.levelSize):
         for y in range(mainMap.levelSize):
             print(currentMap.levelMap[x][y], end='')
@@ -73,6 +64,15 @@ def on_press(key):
         else:
             gameover = True
             '''
+def playerMovement():
+    #if the player is on a bomb
+    if playerCharacter.check_bomb():
+        audioEventPlayer.PlaySound('bombsound.mp3')
+    onBomb = playerCharacter.check_bomb()
+    #audioEventPlayer.PlaySound('bombsound.mp3')
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()  # start to listen on a separate thread
+    listener.join()
 
 
 main()
