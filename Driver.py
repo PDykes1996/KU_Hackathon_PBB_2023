@@ -32,7 +32,7 @@ def main():
         playerMovement()
 
 
-    print("gameover")
+        
 
 def updateMap(currentMap):
     #print out map
