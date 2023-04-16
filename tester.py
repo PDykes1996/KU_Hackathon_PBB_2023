@@ -39,8 +39,6 @@ while x <= 9:
         y+=1
     grid.append(temp)
     x+=1
-for thing in grid:
-    print(thing)
         
 grid_node_width = 25
 grid_node_height = 25
@@ -96,8 +94,11 @@ def visualizeGrid():
         y += grid_node_height   # for every new row we move one "step" downwards
     pygame.display.update()
 
-# Run until the user asks to quit
+def gameover():
+    global game_over
+    game_over = True
 
+game_over = False
 running = True
 while running:
     visualizeGrid()
@@ -110,7 +111,15 @@ while running:
 
 
     # Did the user click the window close button?
-
+    b = 0
+    for thing in grid:
+        for num in thing:
+            if num == 1:
+                b = 1
+    if b == 0:
+        game_over = True
+    print(game_over)
+            
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -148,10 +157,16 @@ while running:
                     grid[start[0]+1][start[1]] = 2
                     start[0] = start[0]+1
                     visualizeGrid()
+            if event.key == pygame.K_SPACE and game_over:
+                game_over = False
+                visualizeGrid()
+                print(1)
 
 
     # Fill the background with white
 
     screen.fill((255, 255, 255))
+for thing in grid:
+    print(thing)
 
 pygame.quit()
