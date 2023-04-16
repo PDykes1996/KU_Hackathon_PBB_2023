@@ -26,8 +26,10 @@ def main():
     mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #initialize player on map
     updateMap(mainMap) #print map
     #audioPlayer.PlaySound("bombsound.mp3")
-    while (1): #listen for key pressed from player
-        playerMovement()
+    #listen for user keyboard input
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()  # start to listen on a separate thread
+    listener.join()
 
 
         
@@ -66,16 +68,6 @@ def on_press(key):
         else:
             gameover = True
             '''
-def playerMovement():
-    #if the player is on a bomb
-    if playerCharacter.check_bomb():
-        audioEventPlayer.PlaySound('bombsound.mp3')
-    onBomb = playerCharacter.check_bomb()
-    #audioEventPlayer.PlaySound('bombsound.mp3')
-    listener = keyboard.Listener(on_press=on_press)
-    listener.start()  # start to listen on a separate thread
-    listener.join()
-
 
 main()
 print(playerCharacter.check_bomb())
