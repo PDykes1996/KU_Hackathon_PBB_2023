@@ -1,5 +1,5 @@
 import random
-from pygame import mixer
+#from pygame import mixer
 class Bomb:
     def __init__(self, bombPosition):
         self.icon = "|!|"

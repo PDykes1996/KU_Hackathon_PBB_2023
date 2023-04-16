@@ -28,20 +28,16 @@ def main():
 
 
 
-    while (1): #listen for key pressed from player 
-        onBomb = playerCharacter.check_bomb()
-        audioEventPlayer.PlaySound('bombsound.mp3')
-
+    while (1): #listen for key pressed from player
         if playerCharacter.check_bomb(): #if the player is on a bomb
-            #audioPlayer.PlaySound("bombsound.mp3")
-            pygame.mixer.music.load('bombsound.mp3')
-            pygame.mixer.music.play(0)
+            playsound('bombsound.mp3', False)
+            #pygame.mixer.music.load('bombsound.mp3')
+            #pygame.mixer.music.play()
         listener = keyboard.Listener(on_press=on_press)
         listener.start()  # start to listen on a separate thread
         listener.join()
 
-
-    print("gameover")
+        
 
 def updateMap(currentMap):
     #print out map
