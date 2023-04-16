@@ -33,15 +33,15 @@ def main():
 
 def updateMap(currentMap):
     #print out map
-    print("Average Distance From Bombs: " + str(playerCharacter.DistanceFromBombs(mainMap.bombs)))
-    print("Is on bomb: " + str(playerCharacter.check_bomb()))
-    print("Sound Playing : " + str(audioEventPlayer.currentSound))
+    #print("Average Distance From Bombs: " + str(playerCharacter.DistanceFromBombs(mainMap.bombs)))
     for x in range(mainMap.levelSize):
         for y in range(mainMap.levelSize):
             print(currentMap.levelMap[x][y], end='')
         print('')
 
 def on_press(key):
+    if playerCharacter.defusePos[0] > playerCharacter.position[0] or playerCharacter.defusePos[0] < playerCharacter.position[0] or playerCharacter.defusePos[1] > playerCharacter.position[1] or playerCharacter.defusePos[1] < playerCharacter.position[1]:
+        playerCharacter.deactivateDefuse()
     #to move player
     try:
         k = key.char  # single-char keys
@@ -54,16 +54,14 @@ def on_press(key):
            print(LINE_UP, end=LINE_CLEAR)
         mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #change the tile at the new player position to be P
         updateMap(mainMap) #print out the map again
-    #if playerCharacter.check_bomb(): #if the player is on a bomb   
-     #   playsound('bombsound.mp3', False)
-        #pygame.mixer.music.load('bombsound.mp3')
-        #pygame.mixer.music.play()
-    if playerCharacter.check_bomb():
-        if  k in ['space']:
-            playerCharacter.defuse_bomb()
-        else:
-            playsound('bombsound.mp3', False)
+    if k in ['space']:
+        defusePosition = []
+        for value in playerCharacter.position:
+            defusePosition.append(value)
+        playerCharacter.activateDefuse(defusePosition)
+    
+    if playerCharacter.check_bomb() and playerCharacter.defuseOn == False:
+        playsound('bombsound.mp3', False)
             
 
-main()
-print(playerCharacter.check_bomb()) 
+main()  

@@ -15,6 +15,20 @@ class Player:
         self.geiger1Sound = ""
         self.geiger2Sound = ""
         self.geiger3Sound = ""
+        self.defuses = 3
+        self.defuseOn = False
+        self.defusePos = [-1,-1]
+
+    def activateDefuse(self, position):
+        if self.defuses <= 0:
+            return
+        self.defuses -= 1
+        self.defuseOn = True
+        self.defusePos = position
+
+    def deactivateDefuse(self):
+        self.defuseOn = False
+        self.defusePos = [-1,-1]
 
     def move(self, direction):
         #move player
