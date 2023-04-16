@@ -19,6 +19,7 @@ LINE_CLEAR = '\x1b[2K'
 mainMap = Level(20, 1)
 playerCharacter = Player([0,0], mainMap)
 gameover = False
+
 audioEventPlayer = SoundDriver()
 audioGeigerPlayer = SoundDriver()
 audioGeigerPlayer.audioList = ['Counter10.mp3',
@@ -53,6 +54,8 @@ def updateMap(currentMap):
         print('')
 
 def on_press(key):
+    if playerCharacter.defusePos[0] > playerCharacter.position[0] or playerCharacter.defusePos[0] < playerCharacter.position[0] or playerCharacter.defusePos[1] > playerCharacter.position[1] or playerCharacter.defusePos[1] < playerCharacter.position[1]:
+        playerCharacter.deactivateDefuse()
     #to move player
     try:
         k = key.char  # single-char keys
@@ -90,4 +93,4 @@ def updateGeigerLevel(level):
         audioGeigerPlayer.PlayContinuous(level-1)
 
 
-main()
+main()  

@@ -6,6 +6,7 @@ class Bomb:
         self.bombPosition = bombPosition
         self.explosionSound = "bombsound.mp3"
         self.diffuseSound = ""
+        self.isActive = True
 
     def BombExplosion(self):
         pygame.mixer.Sound.play(self.explosionSound)

@@ -15,6 +15,20 @@ class Player:
         self.geiger1Sound = ""
         self.geiger2Sound = ""
         self.geiger3Sound = ""
+        self.defuses = 3
+        self.defuseOn = False
+        self.defusePos = [-1,-1]
+
+    def activateDefuse(self, position):
+        if self.defuses <= 0:
+            return
+        self.defuses -= 1
+        self.defuseOn = True
+        self.defusePos = position
+
+    def deactivateDefuse(self):
+        self.defuseOn = False
+        self.defusePos = [-1,-1]
 
     def move(self, direction):
         #move player
@@ -30,7 +44,7 @@ class Player:
             self.hit_wall()
             
     def check_bomb(self):
-        return self.position in self.level.bombPositions #returns true if the player is on a bomb (position is in the list of bomb positions)
+        return (self.position in self.level.bombPositions and self.level.bombAt(self.position).isActive == True) #returns true if the player is on a bomb (position is in the list of bomb positions)
 
     def hit_wall(self):
         #what happens when the player hits the wall
@@ -54,4 +68,5 @@ class Player:
     
 def defuse_bomb(self):
         #play sound
+        self.level.bombAt(self.position).isActive = False
         self.level.addBomb(self.position)
