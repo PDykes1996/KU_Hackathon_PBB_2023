@@ -64,26 +64,22 @@ def on_press(key):
     if k in ['up', 'down', 'left', 'right']:  # arrow keys
         mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '0' #change current player tile to be blank
         playerCharacter.move(k) #move player
-        for i in range(mainMap.levelSize+3): #overwrite previous map
+        for i in range(mainMap.levelSize): #overwrite previous map
            print(LINE_UP, end=LINE_CLEAR) 
         mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = 'P' #change the tile at the new player position to be P
         updateMap(mainMap) #print out the map again
-    #if the player is on a bomb
+    if k in ['space']:
+        defusePosition = []
+        for value in playerCharacter.position:
+            defusePosition.append(value)
+        playerCharacter.activateDefuse(defusePosition)
+    
     if playerCharacter.check_bomb():
-        audioEventPlayer.PlaySound('bombsound.mp3')
-        '''
-    if playerCharacter.check_bomb():
-        if k in ['space']:
-            mainMap.bombAt([playerCharacter.position[0], playerCharacter.position[1]]).BombDefusal()
+        if playerCharacter.defuseOn == False and mainMap.bombAt(playerCharacter.position).isActive == True:
+            playsound('bombsound.mp3', False)
+            #add gameover func
         else:
-            gameover = True
-            '''
-def playerMovement():
-    onBomb = playerCharacter.check_bomb()
-    #audioEventPlayer.PlaySound('bombsound.mp3')
-    listener = keyboard.Listener(on_press=on_press)
-    listener.start()  # start to listen on a separate thread
-    listener.join()
+            playerCharacter.defuse_bomb()
 
 def updateGeigerLevel(level):
     if level > 10 or level == 0:
@@ -91,6 +87,6 @@ def updateGeigerLevel(level):
     else:
         audioGeigerPlayer.StopContinuous()
         audioGeigerPlayer.PlayContinuous(level-1)
-
+            
 
 main()  
