@@ -35,7 +35,6 @@ audioGeigerPlayer.audioList = ['Counter10.mp3',
 def main():
     mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #initialize player on map
     updateMap(mainMap) #print map
-
     onBomb = playerCharacter.check_bomb() #Boolean that shows if the player is on a bomb (debugging only)
     listener = keyboard.Listener(on_press=on_press)
     listener.start()  # start to listen on a separate thread
@@ -73,11 +72,13 @@ def on_press(key):
         for value in playerCharacter.position:
             defusePosition.append(value)
         playerCharacter.activateDefuse(defusePosition)
-    
+    if k in ['r'] and gameover:
+        gameover = False
     if playerCharacter.check_bomb():
         if playerCharacter.defuseOn == False and mainMap.bombAt(playerCharacter.position).isActive == True:
             playsound('bombsound.mp3', False)
-            #add gameover func
+            gameover = True
+            return False
         else:
             playerCharacter.defuse_bomb()
 

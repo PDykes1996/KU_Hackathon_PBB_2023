@@ -66,7 +66,7 @@ class Player:
         return avgDist/len(activeBombs)
 
     
-def defuse_bomb(self):
+    def defuse_bomb(self):
         #play sound
         self.level.bombAt(self.position).isActive = False
         self.level.addBomb(self.position)
