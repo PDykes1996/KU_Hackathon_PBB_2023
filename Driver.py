@@ -19,15 +19,13 @@ LINE_CLEAR = '\x1b[2K'
 mainMap = Level(10, 2)
 playerCharacter = Player([0,0], mainMap)
 gameover = False
+
 audioEventPlayer = SoundDriver()
 audioGeigerPlayer = SoundDriver()
 def main():
     mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #initialize player on map
     updateMap(mainMap) #print map
     #audioPlayer.PlaySound("bombsound.mp3")
-
-
-
     while (1): #listen for key pressed from player
         playerMovement()
 
@@ -54,9 +52,13 @@ def on_press(key):
         mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '| |' #change current player tile to be blank
         playerCharacter.move(k) #move player
         for i in range(mainMap.levelSize+3): #overwrite previous map
-           print(LINE_UP, end=LINE_CLEAR) 
+           print(LINE_UP, end=LINE_CLEAR)
         mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #change the tile at the new player position to be P
         updateMap(mainMap) #print out the map again
+    if playerCharacter.check_bomb(): #if the player is on a bomb   
+        playsound('bombsound.mp3', False)
+        #pygame.mixer.music.load('bombsound.mp3')
+        #pygame.mixer.music.play()
         '''
     if playerCharacter.check_bomb():
         if k in ['space']:
@@ -76,3 +78,4 @@ def playerMovement():
 
 
 main()
+print(playerCharacter.check_bomb())
