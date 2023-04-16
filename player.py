@@ -1,6 +1,8 @@
 from playsound import playsound
 from LevelGenerator import Level
 import pygame
+import cmath
+import math
 
 class Player:
     def __init__(self, position, level):
@@ -34,3 +36,20 @@ class Player:
         #what happens when the player hits the wall
         return
         #playsound(self.OOBSound)
+    def DistanceFromBombs(self, activeBombs):
+        avgDist = 0
+        for bomb in activeBombs:
+            playerX = self.position[0]
+            playerY = self.position[1]
+            bombX = bomb.bombPosition[0]
+            bombY = bomb.bombPosition[1]
+            SQR1 = (playerX-bombX)**2
+            SQR2 = (playerY-bombY)**2
+            dist = math.ceil(math.sqrt(SQR1+SQR2))
+            if(dist <= 10):
+                avgDist += (dist)
+        return avgDist/len(activeBombs) 
+    
+    def defuse_bomb(self):
+        #play sound
+        self.level.addBomb(self.position)
