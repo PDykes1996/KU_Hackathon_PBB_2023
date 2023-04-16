@@ -19,6 +19,8 @@ LINE_CLEAR = '\x1b[2K'
 mainMap = Level(20, 1)
 playerCharacter = Player([0,0], mainMap)
 gameover = False
+global numBombsDefused
+numBombsDefused = 0
 
 audioEventPlayer = SoundDriver()
 audioGeigerPlayer = SoundDriver()
@@ -32,16 +34,39 @@ audioGeigerPlayer.audioList = ['Counter10.mp3',
                                'Counter3.mp3',
                                'Counter2.mp3',
                                'Counter1.mp3',]
+
+
+import pygame
+import time
+import random
+
+pygame.init()
+pygame.mixer.init()
+
+# Set up the drawing window
+
+#screen = pygame.display.set_mode([500, 500])
+
+
+
+def win():
+    playsound('win.mp3')
+    quit()
+    global gameover
+    gameover = True
+    return
+
 def main():
-    mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #initialize player on map
+    mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = 'P' #initialize player on map
     updateMap(mainMap) #print map
-    onBomb = playerCharacter.check_bomb() #Boolean that shows if the player is on a bomb (debugging only)
+    
     listener = keyboard.Listener(on_press=on_press)
     listener.start()  # start to listen on a separate thread
     listener.join()
 
 def updateMap(currentMap):
     #print out map/update info
+    #screen.fill((0, 0, 0))
     avgDistBomb = playerCharacter.DistanceFromBombs(mainMap.bombs)
     print("Average Distance From Bombs: " + str(playerCharacter.DistanceFromBombs(mainMap.bombs)))
     print("Is on bomb: " + str(playerCharacter.check_bomb()))
@@ -63,7 +88,7 @@ def on_press(key):
     if k in ['up', 'down', 'left', 'right']:  # arrow keys
         mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '0' #change current player tile to be blank
         playerCharacter.move(k) #move player
-        for i in range(mainMap.levelSize): #overwrite previous map
+        for i in range(mainMap.levelSize+3): #overwrite previous map
            print(LINE_UP, end=LINE_CLEAR) 
         mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = 'P' #change the tile at the new player position to be P
         updateMap(mainMap) #print out the map again
@@ -76,11 +101,16 @@ def on_press(key):
         gameover = False
     if playerCharacter.check_bomb():
         if playerCharacter.defuseOn == False and mainMap.bombAt(playerCharacter.position).isActive == True:
-            playsound('bombsound.mp3', False)
+            playsound('explosion.mp3', False)
             gameover = True
             return False
         else:
             playerCharacter.defuse_bomb()
+            global numBombsDefused
+            numBombsDefused += 1
+            if numBombsDefused == 3:
+                win()
+                return False
 
 def updateGeigerLevel(level):
     if level > 10 or level == 0:
@@ -91,3 +121,5 @@ def updateGeigerLevel(level):
             
 
 main()  
+
+#pygame.quit()

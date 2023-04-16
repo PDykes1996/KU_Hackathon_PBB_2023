@@ -48,25 +48,28 @@ class Player:
 
     def hit_wall(self):
         #what happens when the player hits the wall
-        return
-        #playsound(self.OOBSound)
+        playsound('border.mp3', False)
 
     def DistanceFromBombs(self, activeBombs):
         avgDist = 0
+        count = 0
         for bomb in activeBombs:
-            playerX = self.position[0]
-            playerY = self.position[1]
-            bombX = bomb.bombPosition[0]
-            bombY = bomb.bombPosition[1]
-            SQR1 = (playerX-bombX)**2
-            SQR2 = (playerY-bombY)**2
-            dist = math.floor(math.sqrt(SQR1+SQR2))
-            if(dist <= 10):
-                avgDist += (dist)
-        return avgDist/len(activeBombs)
+            if bomb.isActive:
+                count += 1
+                playerX = self.position[0]
+                playerY = self.position[1]
+                bombX = bomb.bombPosition[0]
+                bombY = bomb.bombPosition[1]
+                SQR1 = (playerX-bombX)**2
+                SQR2 = (playerY-bombY)**2
+                dist = math.floor(math.sqrt(SQR1+SQR2))
+                if(dist <= 10):
+                    avgDist += (dist)
+        return avgDist/count
 
     
     def defuse_bomb(self):
         #play sound
+        playsound('cut.mp3')
         self.level.bombAt(self.position).isActive = False
         self.level.addBomb(self.position)
