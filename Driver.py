@@ -16,7 +16,7 @@ LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
 
 #game variables
-mainMap = Level(20, 1)
+mainMap = Level(10, 1)
 playerCharacter = Player([0,0], mainMap)
 gameover = False
 global numBombsDefused
@@ -68,14 +68,17 @@ def updateMap(currentMap):
     #print out map/update info
     #screen.fill((0, 0, 0))
     avgDistBomb = playerCharacter.DistanceFromBombs(mainMap.bombs)
+    updateGeigerLevel(int(avgDistBomb))
+    '''
     print("Average Distance From Bombs: " + str(playerCharacter.DistanceFromBombs(mainMap.bombs)))
     print("Is on bomb: " + str(playerCharacter.check_bomb()))
     print("Sound Playing : " + str(audioEventPlayer.currentSound))
-    updateGeigerLevel(int(avgDistBomb))
     for x in range(mainMap.levelSize):
         for y in range(mainMap.levelSize):
             print('|' + str(currentMap.levelMap[x][y]) + '|', end='')
         print('')
+        '''
+    
 
 def on_press(key):
     if playerCharacter.defusePos[0] > playerCharacter.position[0] or playerCharacter.defusePos[0] < playerCharacter.position[0] or playerCharacter.defusePos[1] > playerCharacter.position[1] or playerCharacter.defusePos[1] < playerCharacter.position[1]:
@@ -101,7 +104,7 @@ def on_press(key):
         gameover = False
     if playerCharacter.check_bomb():
         if playerCharacter.defuseOn == False and mainMap.bombAt(playerCharacter.position).isActive == True:
-            playsound('explosion.mp3', False)
+            playsound('explosion.mp3')
             gameover = True
             return False
         else:
