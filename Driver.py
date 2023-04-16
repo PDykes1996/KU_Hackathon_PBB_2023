@@ -31,9 +31,6 @@ def main():
     listener.start()  # start to listen on a separate thread
     listener.join()
 
-
-        
-
 def updateMap(currentMap):
     #print out map
     print("Average Distance From Bombs: " + str(playerCharacter.DistanceFromBombs(mainMap.bombs)))
@@ -57,17 +54,16 @@ def on_press(key):
            print(LINE_UP, end=LINE_CLEAR)
         mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #change the tile at the new player position to be P
         updateMap(mainMap) #print out the map again
-    if playerCharacter.check_bomb(): #if the player is on a bomb   
-        playsound('bombsound.mp3', False)
+    #if playerCharacter.check_bomb(): #if the player is on a bomb   
+     #   playsound('bombsound.mp3', False)
         #pygame.mixer.music.load('bombsound.mp3')
         #pygame.mixer.music.play()
-        '''
     if playerCharacter.check_bomb():
-        if k in ['space']:
-            mainMap.bombAt([playerCharacter.position[0], playerCharacter.position[1]]).BombDefusal()
+        if  k in ['space']:
+            playerCharacter.defuse_bomb()
         else:
-            gameover = True
-            '''
+            playsound('bombsound.mp3', False)
+            
 
 main()
-print(playerCharacter.check_bomb())
+print(playerCharacter.check_bomb()) 

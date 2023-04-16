@@ -30,7 +30,7 @@ class Player:
             self.hit_wall()
             
     def check_bomb(self):
-        return self.position in self.level.bombPositions #returns true if the player is on a bomb (position is in the list of bomb positions)
+        return (self.position in self.level.bombPositions and self.level.bombAt(self.position).isActive == True) #returns true if the player is on a bomb (position is in the list of bomb positions)
 
     def hit_wall(self):
         #what happens when the player hits the wall
@@ -52,4 +52,5 @@ class Player:
     
     def defuse_bomb(self):
         #play sound
+        self.level.bombAt(self.position).isActive = False
         self.level.addBomb(self.position)
