@@ -16,32 +16,40 @@ LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
 
 #game variables
-mainMap = Level(10, 2)
+mainMap = Level(20, 1)
 playerCharacter = Player([0,0], mainMap)
 gameover = False
 audioEventPlayer = SoundDriver()
 audioGeigerPlayer = SoundDriver()
+audioGeigerPlayer.audioList = ['Counter10.mp3',
+                               'Counter9.mp3',
+                               'Counter8.mp3',
+                               'Counter7.mp3',
+                               'Counter6.mp3',
+                               'Counter5.mp3',
+                               'Counter4.mp3',
+                               'Counter3.mp3',
+                               'Counter2.mp3',
+                               'Counter1.mp3',]
 def main():
     mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #initialize player on map
     updateMap(mainMap) #print map
-    #audioPlayer.PlaySound("bombsound.mp3")
 
-
-
-    while (1): #listen for key pressed from player
-        playerMovement()
-
-
-        
+    onBomb = playerCharacter.check_bomb() #Boolean that shows if the player is on a bomb (debugging only)
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()  # start to listen on a separate thread
+    listener.join()
 
 def updateMap(currentMap):
-    #print out map
+    #print out map/update info
+    avgDistBomb = playerCharacter.DistanceFromBombs(mainMap.bombs)
     print("Average Distance From Bombs: " + str(playerCharacter.DistanceFromBombs(mainMap.bombs)))
     print("Is on bomb: " + str(playerCharacter.check_bomb()))
     print("Sound Playing : " + str(audioEventPlayer.currentSound))
+    updateGeigerLevel(int(avgDistBomb))
     for x in range(mainMap.levelSize):
         for y in range(mainMap.levelSize):
-            print(currentMap.levelMap[x][y], end='')
+            print('|' + str(currentMap.levelMap[x][y]) + '|', end='')
         print('')
 
 def on_press(key):
@@ -51,12 +59,15 @@ def on_press(key):
     except:
         k = key.name  # other keys
     if k in ['up', 'down', 'left', 'right']:  # arrow keys
-        mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '| |' #change current player tile to be blank
+        mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '0' #change current player tile to be blank
         playerCharacter.move(k) #move player
         for i in range(mainMap.levelSize+3): #overwrite previous map
            print(LINE_UP, end=LINE_CLEAR) 
-        mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = '|P|' #change the tile at the new player position to be P
+        mainMap.levelMap[playerCharacter.position[0]][playerCharacter.position[1]] = 'P' #change the tile at the new player position to be P
         updateMap(mainMap) #print out the map again
+    #if the player is on a bomb
+    if playerCharacter.check_bomb():
+        audioEventPlayer.PlaySound('bombsound.mp3')
         '''
     if playerCharacter.check_bomb():
         if k in ['space']:
@@ -65,14 +76,18 @@ def on_press(key):
             gameover = True
             '''
 def playerMovement():
-    #if the player is on a bomb
-    if playerCharacter.check_bomb():
-        audioEventPlayer.PlaySound('bombsound.mp3')
     onBomb = playerCharacter.check_bomb()
     #audioEventPlayer.PlaySound('bombsound.mp3')
     listener = keyboard.Listener(on_press=on_press)
     listener.start()  # start to listen on a separate thread
     listener.join()
+
+def updateGeigerLevel(level):
+    if level > 10 or level == 0:
+        audioGeigerPlayer.StopContinuous()
+    else:
+        audioGeigerPlayer.StopContinuous()
+        audioGeigerPlayer.PlayContinuous(level-1)
 
 
 main()

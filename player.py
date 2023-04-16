@@ -36,6 +36,7 @@ class Player:
         #what happens when the player hits the wall
         return
         #playsound(self.OOBSound)
+
     def DistanceFromBombs(self, activeBombs):
         avgDist = 0
         for bomb in activeBombs:
@@ -45,11 +46,12 @@ class Player:
             bombY = bomb.bombPosition[1]
             SQR1 = (playerX-bombX)**2
             SQR2 = (playerY-bombY)**2
-            dist = math.ceil(math.sqrt(SQR1+SQR2))
+            dist = math.floor(math.sqrt(SQR1+SQR2))
             if(dist <= 10):
                 avgDist += (dist)
-        return avgDist/len(activeBombs) 
+        return avgDist/len(activeBombs)
+
     
-    def defuse_bomb(self):
+def defuse_bomb(self):
         #play sound
         self.level.addBomb(self.position)

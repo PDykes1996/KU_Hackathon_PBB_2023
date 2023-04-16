@@ -1,5 +1,6 @@
 from Bomb import Bomb
 import random
+import math
 class Level:
     def __init__(self, levelSize, bombAmt):
         self.levelSize = levelSize
@@ -9,8 +10,9 @@ class Level:
         self.levelMap = self.GenerateLevel()
 
     def GenerateLevel(self):
-        self.levelMap = [['| |'] * self.levelSize for row in range(self.levelSize)]
+        self.levelMap = [[0] * self.levelSize for row in range(self.levelSize)]
         return self.PopulateBombs()
+        #self.bombHeatmap()
     
     def PopulateBombs(self):
         #create bombs on map
@@ -40,3 +42,12 @@ class Level:
         for bomb in self.bombs:
             if(bomb.bombPosition == position):
                 return bomb
+'''
+    def bombHeatmap(self):
+        for bomb in self.bombs:
+            for i in range(10):
+                self.levelMap[bomb.bombPosition[0]+i][bomb.bombPosition[1]] += abs(i-10)
+                self.levelMap[bomb.bombPosition[0]-i][bomb.bombPosition[1]] += abs(i-10)
+                self.levelMap[bomb.bombPosition[0]][bomb.bombPosition[1]+i] += abs(i-10)
+                self.levelMap[bomb.bombPosition[0]][bomb.bombPosition[1]-i] += abs(i-10)
+'''
